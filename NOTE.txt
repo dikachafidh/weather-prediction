@@ -1,0 +1,7 @@
+user user123
+admin admin123
+
+02042026 sunny
+13012025 fog
+17012025 snow
+
