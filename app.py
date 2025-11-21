@@ -181,8 +181,3 @@ def test_page():
     <p>If you see this page, deployment is successful!</p>
     """
 
-# Required for Vercel
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    print(f"🚀 Starting server on port {port}...")
-    app.run(host='0.0.0.0', port=port, debug=False)
