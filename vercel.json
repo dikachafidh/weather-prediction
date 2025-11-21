@@ -11,8 +11,8 @@
           "scaler.pkl",
           "label_encoder.pkl",
           "seattle-weather.csv",
-          "templates/**",   // Penting: Folder template
-          "static/**"      // Jika Anda memiliki file CSS/JS/Gambar
+          "templates/**",   
+          "static/**"      
         ]
       }
     }
@@ -24,3 +24,4 @@
     }
   ]
 }
+
