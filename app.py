@@ -3,9 +3,10 @@ import pandas as pd
 import joblib
 from datetime import date
 from pathlib import Path
+import os
 
 app = Flask(__name__)
-app.secret_key = 'weather-app-secret-key-2024'
+app.secret_key = os.environ.get('SECRET_KEY', 'weather-app-secret-key-2024')
 
 # Get current directory
 current_dir = Path(__file__).parent
@@ -180,4 +181,7 @@ def test_page():
     <p>If you see this page, deployment is successful!</p>
     """
 
-
+# Tambahkan bagian ini di BAWAH untuk Railway deployment
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
