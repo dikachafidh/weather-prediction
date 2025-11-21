@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 import pandas as pd
 import joblib
 from datetime import date
-import os
 from pathlib import Path
 
 app = Flask(__name__)
@@ -180,4 +179,5 @@ def test_page():
     <p><a href="/health">Check Health Status</a></p>
     <p>If you see this page, deployment is successful!</p>
     """
+
 
