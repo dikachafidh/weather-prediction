@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat - Weather Predict</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* Copy semua CSS dari admin_page.html */
+        /* ... (salin CSS yang sama) ... */
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-cloud-sun-rain"></i> <span>Weather Predict</span></h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
+            <li><a href="{{ url_for('history') }}" class="active"><i class="fas fa-history"></i> <span>Riwayat</span></a></li>
+            <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1>Riwayat Prediksi - {{ username }}</h1>
+            <div class="user-info">
+                <div class="user-avatar">{{ username[0]|upper }}</div>
+                <a href="{{ url_for('logout') }}"><button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button></a>
+            </div>
+        </div>
+
+        <!-- Riwayat Card -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h2><i class="fas fa-history"></i> Riwayat Prediksi Cuaca</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal Prediksi</th>
+                                <th>Hasil Prediksi</th>
+                                <th>Tingkat Akurasi</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in history_data %}
+                            <tr>
+                                <td>{{ item.tanggal }}</td>
+                                <td>
+                                    {% if 'cerah' in item.prediksi.lower() %}
+                                        <span class="weather-badge weather-sunny"><i class="fas fa-sun"></i> {{ item.prediksi }}</span>
+                                    {% elif 'hujan' in item.prediksi.lower() %}
+                                        <span class="weather-badge weather-rainy"><i class="fas fa-cloud-rain"></i> {{ item.prediksi }}</span>
+                                    {% else %}
+                                        <span class="weather-badge weather-cloudy"><i class="fas fa-cloud"></i> {{ item.prediksi }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.akurasi }}</td>
+                                <td>
+                                    <span style="color: var(--success); font-weight: 600;">
+                                        <i class="fas fa-check-circle"></i> Selesai
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInOnScroll = function() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('fade-in');
+                    }
+                });
+            };
+            
+            fadeInOnScroll();
+            window.addEventListener('scroll', fadeInOnScroll);
+        });
+    </script>
+</body>
+</html>
