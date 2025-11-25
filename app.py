@@ -1,33 +1,56 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import pandas as pd
 import joblib
-from datetime import date # Impor modul date
+from datetime import date
+import warnings
+import traceback
 
 app = Flask(__name__)
 app.secret_key = 'kunci_rahasia_anda_yang_sangat_aman'
 
-# ==== Load model, scaler, dan label encoder ====
-try:
-    rf_model = joblib.load("rf_weather_model.pkl")
-    scaler = joblib.load("scaler.pkl")
-    le = joblib.load("label_encoder.pkl")
-    print("Model, scaler, dan label encoder berhasil dimuat.")
-except FileNotFoundError:
-    print("Error: Satu atau lebih file model tidak ditemukan. Harap jalankan model_training.py terlebih dahulu.")
-    exit()
+# ==== Load model, scaler, dan label encoder dengan error handling ====
+def load_models():
+    global rf_model, scaler, le, df, X
+    
+    try:
+        # Coba load dengan ignore warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            rf_model = joblib.load("rf_weather_model.pkl")
+            scaler = joblib.load("scaler.pkl")
+            le = joblib.load("label_encoder.pkl")
+        print("Model, scaler, dan label encoder berhasil dimuat.")
+        
+        # Load data historis
+        df = pd.read_csv("seattle-weather.csv")
+        df = df.dropna(axis=1, how="all")
+        X = df.drop(columns=['weather'])
+        X['date'] = pd.to_datetime(X['date'])
+        X['month'] = X['date'].dt.month
+        X['day'] = X['date'].dt.day
+        X = X.drop(columns=['date'])
+        
+    except FileNotFoundError as e:
+        print(f"Error: File tidak ditemukan - {e}")
+        exit()
+    except Exception as e:
+        print(f"Error loading models: {e}")
+        print("Traceback:")
+        traceback.print_exc()
+        print("\nMencoba load dengan compatibility mode...")
+        
+        # Coba load dengan compatibility mode
+        try:
+            rf_model = joblib.load("rf_weather_model.pkl", mmap_mode=None)
+            scaler = joblib.load("scaler.pkl", mmap_mode=None)
+            le = joblib.load("label_encoder.pkl", mmap_mode=None)
+            print("Berhasil load dengan compatibility mode!")
+        except Exception as e2:
+            print(f"Masih error: {e2}")
+            exit()
 
-# Mengambil data historis untuk perhitungan mean
-try:
-    df = pd.read_csv("seattle-weather.csv")
-    df = df.dropna(axis=1, how="all")
-    X = df.drop(columns=['weather'])
-    X['date'] = pd.to_datetime(X['date'])
-    X['month'] = X['date'].dt.month
-    X['day'] = X['date'].dt.day
-    X = X.drop(columns=['date'])
-except FileNotFoundError:
-    print("Error: seattle-weather.csv tidak ditemukan.")
-    exit()
+# Panggil fungsi load
+load_models()
 
 # ==== Data pengguna (simulasi database) ====
 users = {
@@ -67,11 +90,14 @@ def predict_weather(tanggal_input):
         'day': [day]
     })
     
-    new_data_scaled = scaler.transform(new_data_avg)
-    pred = rf_model.predict(new_data_scaled)
-    label = le.inverse_transform(pred)[0]
-    
-    return {"tanggal": tanggal_input, "prediksi_cuaca": label}
+    try:
+        new_data_scaled = scaler.transform(new_data_avg)
+        pred = rf_model.predict(new_data_scaled)
+        label = le.inverse_transform(pred)[0]
+        
+        return {"tanggal": tanggal_input, "prediksi_cuaca": label}
+    except Exception as e:
+        return {"error": f"Prediction error: {str(e)}"}
 
 # Rute utama yang akan mengarahkan ke login
 @app.route('/')
@@ -106,7 +132,6 @@ def login():
 def user_dashboard():
     if 'logged_in' in session and session['username'] == 'user':
         today = date.today().strftime('%Y-%m-%d')
-        # Prediksi cuaca untuk tanggal hari ini
         current_weather = predict_weather(today)
         return render_template('index.html', username=session['username'], current_weather=current_weather)
     return redirect(url_for('login'))
@@ -115,9 +140,11 @@ def user_dashboard():
 @app.route('/admin')
 def admin_dashboard():
     if 'logged_in' in session and session['username'] == 'admin':
-        # Baca data CSV dan kirim ke template
-        weather_data = pd.read_csv("seattle-weather.csv").to_dict('records')
-        return render_template('admin_page.html', username=session['username'], data=weather_data)
+        try:
+            weather_data = pd.read_csv("seattle-weather.csv").to_dict('records')
+            return render_template('admin_page.html', username=session['username'], data=weather_data)
+        except Exception as e:
+            return f"Error loading data: {e}"
     return redirect(url_for('login'))
 
 # Rute untuk logout
@@ -136,6 +163,11 @@ def predict():
         result = predict_weather(tanggal)
         return jsonify(result)
     return jsonify({"error": "Unauthorized"}), 401
+
+# Error handler
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({"error": "Internal server error - model compatibility issue"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
