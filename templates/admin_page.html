@@ -317,6 +317,21 @@
             color: #7b1fa2;
         }
         
+        .weather-fog {
+            background: #e8e8e8;
+            color: #495057;
+        }
+        
+        .weather-drizzle {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .weather-snow {
+            background: #e3f2fd;
+            color: #0277bd;
+        }
+        
         /* Stats Cards */
         .stats-container {
             display: grid;
@@ -418,6 +433,40 @@
         .fade-in {
             animation: fadeIn 0.5s ease forwards;
         }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--success);
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
     </style>
 </head>
 <body>
@@ -428,8 +477,8 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="{{ url_for('admin_dashboard') }}" class="active"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a></li>
-            <li><a href="#"><i class="fas fa-history"></i> <span>Riwayat</span></a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li>
+            <li><a href="{{ url_for('history') }}"><i class="fas fa-history"></i> <span>Riwayat</span></a></li>
+            <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li>
             <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
         </ul>
     </div>
@@ -452,7 +501,7 @@
                     <i class="fas fa-database"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>1,248</h3>
+                    <h3>{{ data|length }}</h3>
                     <p>Data Cuaca</p>
                 </div>
             </div>
@@ -470,8 +519,8 @@
                     <i class="fas fa-cloud-sun"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>64</h3>
-                    <p>Prediksi Hari Ini</p>
+                    <h3>{{ data|length }}</h3>
+                    <p>Total Prediksi</p>
                 </div>
             </div>
         </div>
@@ -484,8 +533,11 @@
             <div class="card-body">
                 <form id="weatherForm">
                     <div class="form-group">
-                        <input type="date" id="dateInput" name="date" class="form-control" required>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Prediksi Cuaca</button>
+                        <input type="date" id="dateInput" name="date" class="form-control" required 
+                               min="2012-01-01" max="2025-12-31">
+                        <button type="submit" class="btn btn-primary" id="predictBtn">
+                            <i class="fas fa-search"></i> Prediksi Cuaca
+                        </button>
                     </div>
                 </form>
                 <div id="result" class="result-box"></div>
@@ -496,17 +548,23 @@
         <div class="card fade-in">
             <div class="card-header">
                 <h2><i class="fas fa-database"></i> Data Cuaca Historis</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari data..." style="min-width: 250px;">
+                    <button class="btn" onclick="clearSearch()" style="background: var(--light);">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-container">
-                    <table>
+                    <table id="weatherTable">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
-                                <th>Presipitasi</th>
-                                <th>Suhu Maks</th>
-                                <th>Suhu Min</th>
-                                <th>Kecepatan Angin</th>
+                                <th>Presipitasi (mm)</th>
+                                <th>Suhu Maks (°C)</th>
+                                <th>Suhu Min (°C)</th>
+                                <th>Kecepatan Angin (km/jam)</th>
                                 <th>Cuaca</th>
                             </tr>
                         </thead>
@@ -514,15 +572,22 @@
                             {% for row in data %}
                             <tr>
                                 <td>{{ row.date }}</td>
-                                <td>{{ row.precipitation }} mm</td>
-                                <td>{{ row.temp_max }}°C</td>
-                                <td>{{ row.temp_min }}°C</td>
-                                <td>{{ row.wind }} km/jam</td>
+                                <td>{{ "%.1f"|format(row.precipitation|float) }}</td>
+                                <td>{{ "%.1f"|format(row.temp_max|float) }}</td>
+                                <td>{{ "%.1f"|format(row.temp_min|float) }}</td>
+                                <td>{{ "%.1f"|format(row.wind|float) }}</td>
                                 <td>
-                                    {% if 'cerah' in row.weather.lower() %}
+                                    {% set weather_lower = row.weather.lower() %}
+                                    {% if 'sun' in weather_lower or 'cerah' in weather_lower %}
                                         <span class="weather-badge weather-sunny"><i class="fas fa-sun"></i> {{ row.weather }}</span>
-                                    {% elif 'hujan' in row.weather.lower() %}
+                                    {% elif 'rain' in weather_lower or 'hujan' in weather_lower %}
                                         <span class="weather-badge weather-rainy"><i class="fas fa-cloud-rain"></i> {{ row.weather }}</span>
+                                    {% elif 'drizzle' in weather_lower %}
+                                        <span class="weather-badge weather-drizzle"><i class="fas fa-cloud-drizzle"></i> {{ row.weather }}</span>
+                                    {% elif 'fog' in weather_lower %}
+                                        <span class="weather-badge weather-fog"><i class="fas fa-smog"></i> {{ row.weather }}</span>
+                                    {% elif 'snow' in weather_lower %}
+                                        <span class="weather-badge weather-snow"><i class="fas fa-snowflake"></i> {{ row.weather }}</span>
                                     {% else %}
                                         <span class="weather-badge weather-cloudy"><i class="fas fa-cloud"></i> {{ row.weather }}</span>
                                     {% endif %}
@@ -531,6 +596,9 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                </div>
+                <div style="margin-top: 15px; text-align: center; color: var(--text-light);">
+                    Menampilkan {{ data|length }} data cuaca
                 </div>
             </div>
         </div>
@@ -542,38 +610,106 @@
             event.preventDefault();
             const dateInput = document.getElementById('dateInput').value;
             const resultDiv = document.getElementById('result');
+            const predictBtn = document.getElementById('predictBtn');
+            
+            if (!dateInput) {
+                showNotification('Pilih tanggal terlebih dahulu!', 'error');
+                return;
+            }
             
             // Show loading state
-            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses prediksi...';
+            resultDiv.innerHTML = '<i class="fas fa-spinner loading"></i> Memproses prediksi...';
             resultDiv.style.display = 'block';
             resultDiv.style.color = 'var(--info)';
             
-            // Simulate API call with timeout
-            setTimeout(() => {
-                fetch('/predict', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ date: dateInput }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        resultDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${data.error}`;
-                        resultDiv.style.color = 'var(--danger)';
-                    } else {
-                        resultDiv.innerHTML = `<i class="fas fa-check-circle"></i> Prediksi Cuaca untuk ${data.tanggal}: <strong>${data.prediksi_cuaca}</strong>`;
-                        resultDiv.style.color = 'var(--success)';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    resultDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Terjadi kesalahan saat memprediksi cuaca.';
+            predictBtn.disabled = true;
+            predictBtn.innerHTML = '<i class="fas fa-spinner loading"></i> Memproses...';
+            
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ date: dateInput }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    resultDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${data.error}`;
                     resultDiv.style.color = 'var(--danger)';
-                });
-            }, 1500);
+                    showNotification('Prediksi gagal!', 'error');
+                } else {
+                    resultDiv.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                            <div>
+                                <div>Prediksi Cuaca untuk ${data.tanggal}</div>
+                                <div style="font-size: 1.4rem; margin-top: 5px;"><strong>${data.prediksi_cuaca}</strong></div>
+                            </div>
+                        </div>
+                    `;
+                    resultDiv.style.color = 'var(--success)';
+                    showNotification('Prediksi berhasil!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Terjadi kesalahan saat memprediksi cuaca.';
+                resultDiv.style.color = 'var(--danger)';
+                showNotification('Terjadi kesalahan!', 'error');
+            })
+            .finally(() => {
+                predictBtn.disabled = false;
+                predictBtn.innerHTML = '<i class="fas fa-search"></i> Prediksi Cuaca';
+            });
         });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#weatherTable tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            const rows = document.querySelectorAll('#weatherTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = '';
+            });
+        }
+
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
 
         // Add animation to elements on scroll
         document.addEventListener('DOMContentLoaded', function() {
@@ -595,7 +731,16 @@
             
             // Check on scroll
             window.addEventListener('scroll', fadeInOnScroll);
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateInput').value = today;
         });
+
+        // Export data functionality
+        function exportData() {
+            showNotification('Fitur export akan segera hadir!');
+        }
     </script>
 </body>
 </html>
