@@ -40,7 +40,7 @@ body {
 
 /* Style untuk cuaca kabut (Fog) */
 .kabut {
-    background-image: url('../images/fog.jpg');
+    background-image: url('../images/Fog.jpg');
 }
 
 /* Style untuk cuaca salju (Snow) */
@@ -253,3 +253,4 @@ nav ul {
         overflow: hidden; /* cegah bocor layout */
     }
 }
+
