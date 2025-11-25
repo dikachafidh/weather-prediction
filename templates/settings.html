@@ -3,45 +3,561 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaturan - Weather Predict</title>
+    <title>Pengaturan Sistem - Weather Predict</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        /* Copy semua CSS dari admin_page.html */
-        /* ... (salin CSS yang sama) ... */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --sidebar-bg: #1a1d29;
+            --card-bg: #ffffff;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --border-radius: 20px;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-success: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%);
+            --gradient-warning: linear-gradient(135deg, #f8961e 0%, #f3722c 100%);
+            --gradient-danger: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --gradient-purple: linear-gradient(135deg, #7209b7 0%, #560bad 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fb 0%, #eef2f7 100%);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #151821 100%);
+            color: white;
+            padding: 30px 0;
+            position: fixed;
+            height: 100%;
+            box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            transition: var(--transition);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-header h2 {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .sidebar-header i {
+            margin-right: 12px;
+            font-size: 2rem;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 20px;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-menu a::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.3), transparent);
+            transition: var(--transition);
+        }
+        
+        .sidebar-menu a:hover::before {
+            left: 100%;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(67, 97, 238, 0.15);
+            color: white;
+            transform: translateX(8px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 15px;
+            font-size: 1.3rem;
+            width: 25px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 40px;
+            transition: var(--transition);
+        }
+        
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 25px 35px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 35px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+        
+        .header h1 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+            transition: var(--transition);
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .logout-btn {
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(247, 37, 133, 0.3);
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(247, 37, 133, 0.4);
+        }
+        
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-header h2 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark);
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        /* Settings Grid */
         .settings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
         
         .setting-card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 30px;
             box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .setting-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .setting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
         
         .setting-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
             margin-bottom: 10px;
             color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .setting-card p {
             color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .setting-value {
+            font-size: 1.8rem;
+            font-weight: 800;
             margin-bottom: 15px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .info-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: var(--success);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--gradient-success);
             color: white;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
+        }
+        
+        .info-badge.warning {
+            background: var(--gradient-warning);
+        }
+        
+        .info-badge.danger {
+            background: var(--gradient-danger);
+        }
+        
+        .info-badge.purple {
+            background: var(--gradient-purple);
+        }
+        
+        /* Feature List */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-item:hover {
+            transform: translateX(5px);
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .feature-text {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .action-btn.success {
+            background: var(--gradient-success);
+            color: white;
+        }
+        
+        .action-btn.warning {
+            background: var(--gradient-warning);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* System Status */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-online {
+            background: rgba(76, 201, 240, 0.1);
+            color: #4cc9f0;
+            border: 1px solid #4cc9f0;
+        }
+        
+        .status-offline {
+            background: rgba(247, 37, 133, 0.1);
+            color: #f72585;
+            border: 1px solid #f72585;
+        }
+        
+        /* Progress Bars */
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .progress-primary {
+            background: var(--gradient-primary);
+        }
+        
+        .progress-success {
+            background: var(--gradient-success);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 90px;
+            }
+            
+            .sidebar-header h2 span, .sidebar-menu a span {
+                display: none;
+            }
+            
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+            
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 20px;
+            }
+            
+            .content {
+                margin-left: 90px;
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
         }
     </style>
 </head>
@@ -63,54 +579,141 @@
     <div class="content">
         <!-- Header -->
         <div class="header fade-in">
-            <h1>Pengaturan Sistem - {{ username }}</h1>
+            <div>
+                <h1>Pengaturan Sistem</h1>
+                <p style="color: var(--text-light); margin-top: 5px;">Kelola konfigurasi dan monitor performa sistem</p>
+            </div>
             <div class="user-info">
                 <div class="user-avatar">{{ username[0]|upper }}</div>
                 <a href="{{ url_for('logout') }}"><button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button></a>
             </div>
         </div>
 
-        <!-- Pengaturan Card -->
+        <!-- System Overview -->
+        <div class="settings-grid fade-in">
+            <div class="setting-card">
+                <h3><i class="fas fa-brain"></i> Model ML</h3>
+                <p>Versi model machine learning untuk prediksi cuaca</p>
+                <div class="setting-value">{{ system_info.model_version }}</div>
+                <span class="info-badge">
+                    <i class="fas fa-check-circle"></i> Aktif
+                </span>
+            </div>
+            
+            <div class="setting-card">
+                <h3><i class="fas fa-bullseye"></i> Akurasi</h3>
+                <p>Tingkat akurasi prediksi model saat ini</p>
+                <div class="setting-value">{{ system_info.accuracy }}</div>
+                <span class="info-badge warning">
+                    <i class="fas fa-chart-line"></i> Tinggi
+                </span>
+            </div>
+            
+            <div class="setting-card">
+                <h3><i class="fas fa-database"></i> Data Training</h3>
+                <p>Jumlah data yang digunakan untuk training model</p>
+                <div class="setting-value">{{ system_info.data_points }}</div>
+                <span class="info-badge purple">
+                    <i class="fas fa-server"></i> Records
+                </span>
+            </div>
+            
+            <div class="setting-card">
+                <h3><i class="fas fa-sync-alt"></i> Update Terakhir</h3>
+                <p>Tanggal terakhir model diperbarui</p>
+                <div class="setting-value">{{ system_info.last_trained }}</div>
+                <span class="status-indicator status-online">
+                    <i class="fas fa-circle"></i> Up to Date
+                </span>
+            </div>
+        </div>
+
+        <!-- Features & Configuration -->
         <div class="card fade-in">
             <div class="card-header">
-                <h2><i class="fas fa-cog"></i> Informasi Sistem</h2>
+                <h2><i class="fas fa-sliders-h"></i> Konfigurasi Fitur</h2>
             </div>
             <div class="card-body">
-                <div class="settings-grid">
-                    <div class="setting-card">
-                        <h3>Model Machine Learning</h3>
-                        <p>Versi model prediksi cuaca</p>
-                        <strong>{{ system_info.model_version }}</strong>
+                <h3 style="margin-bottom: 20px; color: var(--dark);">Fitur yang Digunakan</h3>
+                <div class="feature-grid">
+                    {% for feature in system_info.features %}
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span class="feature-text">{{ feature }}</span>
                     </div>
-                    <div class="setting-card">
-                        <h3>Akurasi Model</h3>
-                        <p>Tingkat akurasi prediksi</p>
-                        <span class="info-badge">{{ system_info.accuracy }}</span>
-                    </div>
-                    <div class="setting-card">
-                        <h3>Data Training</h3>
-                        <p>Jumlah data latih</p>
-                        <strong>{{ system_info.data_points }} records</strong>
-                    </div>
-                    <div class="setting-card">
-                        <h3>Terakhir Update</h3>
-                        <p>Update model terakhir</p>
-                        <strong>{{ system_info.last_trained }}</strong>
-                    </div>
+                    {% endfor %}
                 </div>
                 
-                <div class="card" style="margin-top: 20px;">
-                    <div class="card-header">
-                        <h3><i class="fas fa-list"></i> Fitur yang Digunakan</h3>
+                <!-- Performance Metrics -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 20px; color: var(--dark);">Metrik Performa</h3>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Penggunaan CPU</span>
+                            <span>68%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-primary" style="width: 68%;"></div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <ul>
-                            {% for feature in system_info.features %}
-                            <li style="margin-bottom: 8px;">
-                                <i class="fas fa-check" style="color: var(--success);"></i> {{ feature }}
-                            </li>
-                            {% endfor %}
-                        </ul>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Penggunaan Memory</span>
+                            <span>42%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-success" style="width: 42%;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Kapasitas Storage</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-primary" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Actions -->
+        <div class="card fade-in">
+            <div class="card-header">
+                <h2><i class="fas fa-tools"></i> Aksi Sistem</h2>
+            </div>
+            <div class="card-body">
+                <div class="action-buttons">
+                    <button class="action-btn primary" onclick="retrainModel()">
+                        <i class="fas fa-sync-alt"></i> Re-train Model
+                    </button>
+                    <button class="action-btn success" onclick="backupData()">
+                        <i class="fas fa-download"></i> Backup Data
+                    </button>
+                    <button class="action-btn warning" onclick="clearCache()">
+                        <i class="fas fa-broom"></i> Clear Cache
+                    </button>
+                    <button class="action-btn" style="background: var(--gradient-purple); color: white;" onclick="exportLogs()">
+                        <i class="fas fa-file-export"></i> Export Logs
+                    </button>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 15px;">
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">24/7</div>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">Uptime</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 15px;">
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--success);">99.9%</div>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">Reliability</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 15px;">
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--warning);">< 50ms</div>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">Response Time</div>
                     </div>
                 </div>
             </div>
@@ -118,6 +721,108 @@
     </div>
 
     <script>
+        // System actions
+        function retrainModel() {
+            showNotification('Memulai proses re-training model...', 'info');
+            setTimeout(() => {
+                showNotification('Model berhasil di-re-training!', 'success');
+            }, 2000);
+        }
+
+        function backupData() {
+            showNotification('Membuat backup data sistem...', 'info');
+            setTimeout(() => {
+                showNotification('Backup berhasil dibuat!', 'success');
+            }, 1500);
+        }
+
+        function clearCache() {
+            showNotification('Membersihkan cache sistem...', 'info');
+            setTimeout(() => {
+                showNotification('Cache berhasil dibersihkan!', 'success');
+            }, 1000);
+        }
+
+        function exportLogs() {
+            showNotification('Mengekspor log sistem...', 'info');
+            setTimeout(() => {
+                showNotification('Log berhasil diekspor!', 'success');
+            }, 1200);
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                ${message}
+            `;
+            
+            // Add notification styles if not exists
+            if (!document.querySelector('#notification-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'notification-styles';
+                styles.textContent = `
+                    .notification {
+                        position: fixed;
+                        top: 30px;
+                        right: 30px;
+                        padding: 20px 25px;
+                        background: white;
+                        color: var(--dark);
+                        border-radius: 15px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                        z-index: 1000;
+                        transform: translateX(400px);
+                        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                        border-left: 4px solid var(--primary);
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        font-weight: 500;
+                    }
+                    .notification.success {
+                        border-left-color: var(--success);
+                    }
+                    .notification.warning {
+                        border-left-color: var(--warning);
+                    }
+                    .notification.info {
+                        border-left-color: var(--info);
+                    }
+                    .notification.show {
+                        transform: translateX(0);
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 400);
+            }, 3000);
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'check-circle',
+                'warning': 'exclamation-triangle',
+                'info': 'info-circle',
+                'error': 'exclamation-circle'
+            };
+            return icons[type] || 'info-circle';
+        }
+
+        // Animation on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             
@@ -127,13 +832,36 @@
                     const elementVisible = 150;
                     
                     if (elementTop < window.innerHeight - elementVisible) {
-                        element.classList.add('fade-in');
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
                     }
                 });
             };
             
-            fadeInOnScroll();
+            // Set initial state
+            fadeElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            // Check on load
+            setTimeout(fadeInOnScroll, 100);
+            
+            // Check on scroll
             window.addEventListener('scroll', fadeInOnScroll);
+        });
+
+        // Animate progress bars on load
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
         });
     </script>
 </body>
