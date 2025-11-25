@@ -4,6 +4,7 @@ import joblib
 from datetime import date
 import warnings
 import traceback
+import os
 
 app = Flask(__name__)
 app.secret_key = 'kunci_rahasia_anda_yang_sangat_aman'
@@ -99,6 +100,8 @@ def predict_weather(tanggal_input):
     except Exception as e:
         return {"error": f"Prediction error: {str(e)}"}
 
+# ===== RUTE-RUTE APLIKASI =====
+
 # Rute utama yang akan mengarahkan ke login
 @app.route('/')
 def home():
@@ -145,6 +148,43 @@ def admin_dashboard():
             return render_template('admin_page.html', username=session['username'], data=weather_data)
         except Exception as e:
             return f"Error loading data: {e}"
+    return redirect(url_for('login'))
+
+# Rute untuk riwayat prediksi (Menu Riwayat)
+@app.route('/history')
+def history():
+    if 'logged_in' in session and session['username'] == 'admin':
+        try:
+            # Simulasi data riwayat prediksi
+            # Dalam implementasi nyata, Anda bisa menyimpan riwayat prediksi di database
+            history_data = [
+                {'tanggal': '2024-01-15', 'prediksi': 'Cerah', 'akurasi': '85%'},
+                {'tanggal': '2024-01-16', 'prediksi': 'Hujan', 'akurasi': '78%'},
+                {'tanggal': '2024-01-17', 'prediksi': 'Berawan', 'akurasi': '82%'},
+                {'tanggal': '2024-01-18', 'prediksi': 'Cerah', 'akurasi': '88%'},
+                {'tanggal': '2024-01-19', 'prediksi': 'Hujan', 'akurasi': '75%'},
+            ]
+            return render_template('history.html', username=session['username'], history_data=history_data)
+        except Exception as e:
+            return f"Error loading history: {e}"
+    return redirect(url_for('login'))
+
+# Rute untuk pengaturan (Menu Pengaturan)
+@app.route('/settings')
+def settings():
+    if 'logged_in' in session and session['username'] == 'admin':
+        try:
+            # Data pengaturan sistem
+            system_info = {
+                'model_version': '1.0.0',
+                'accuracy': '89%',
+                'last_trained': '2024-01-15',
+                'data_points': len(df),
+                'features': list(X.columns)
+            }
+            return render_template('settings.html', username=session['username'], system_info=system_info)
+        except Exception as e:
+            return f"Error loading settings: {e}"
     return redirect(url_for('login'))
 
 # Rute untuk logout
