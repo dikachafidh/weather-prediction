@@ -18,9 +18,29 @@ body {
     background-size: cover; /* **Memastikan gambar menutupi seluruh area tanpa ruang kosong** */
 }
 
+.text {
+    background: rgba(255, 255, 255, 0);        /* transparan */
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    color: #fff;
+    
+    /* Tambahkan ini */
+    min-height: 300px;  /* tinggi minimal, biar kotak tidak terlalu kecil */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* konten tetap di tengah vertikal */
+    width: 90%;  /* agar lebih proporsional */
+    max-width: 600px; /* lebar maksimal */
+    margin: auto;  /* center horizontal */
+}
 /* Style default (misalnya cerah) */
 .default {
-    background-image: url('../images/sun.jpg');
+    background-image: url('../images/home.png');
 }
 
 /* Style untuk cuaca cerah (Sun) */
