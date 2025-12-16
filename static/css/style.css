@@ -136,7 +136,7 @@ nav ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 100px 20px 40px; /* Padding atas untuk nav */
+    padding: 100px 20px 40px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -158,14 +158,29 @@ nav ul {
 
 #greeting {
     font-size: 2.2rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: white;
 }
 
 #weather-text {
     font-size: 1.8rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: white;
+    min-height: 50px;
+}
+
+/* Weather Details - Hidden by default */
+#weather-details {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: none; /* Hidden by default */
+}
+
+#weather-details.has-content {
+    display: block; /* Show when has content */
 }
 
 /* Search Container */
@@ -184,6 +199,31 @@ input[type="date"] {
     font-size: 1rem;
     width: 100%;
     color: #333;
+}
+
+/* Placeholder text for empty date input */
+input[type="date"]:empty::before {
+    content: "Pilih tanggal";
+    color: #666;
+}
+
+input[type="date"]:invalid::-webkit-datetime-edit {
+    color: #666;
+}
+
+/* Prediction Result - Hidden by default */
+#prediction-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-height: 60px;
+    display: none; /* Hidden by default */
+}
+
+#prediction-result.has-content {
+    display: block; /* Show when has content */
 }
 
 button {
@@ -205,23 +245,26 @@ button:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Prediction Result */
-#prediction-result {
-    margin-top: 25px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    min-height: 60px;
+/* Weather Details Items */
+.weather-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Weather Details */
-#weather-details {
-    margin: 20px 0;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.weather-item:last-child {
+    border-bottom: none;
+}
+
+.weather-label {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.weather-value {
+    font-weight: 500;
+    color: #fff;
 }
 
 /* ======================================
@@ -242,10 +285,16 @@ button:hover {
     
     #weather-text {
         font-size: 1.5rem;
+        min-height: 40px;
     }
     
     .text {
         padding: 25px 20px;
+    }
+    
+    #prediction-result {
+        padding: 15px;
+        min-height: 50px;
     }
 }
 
@@ -319,6 +368,7 @@ button:hover {
     #weather-text {
         font-size: 1.3rem;
         line-height: 1.3;
+        min-height: 35px;
     }
     
     /* Search Container Mobile */
@@ -354,6 +404,11 @@ button:hover {
         margin: 0;
         cursor: pointer;
     }
+    
+    #prediction-result {
+        padding: 12px;
+        min-height: 45px;
+    }
 }
 
 /* ======================================
@@ -374,6 +429,7 @@ button:hover {
     
     #weather-text {
         font-size: 1.1rem;
+        min-height: 30px;
     }
     
     .text {
@@ -393,6 +449,11 @@ button:hover {
     .logout-btn {
         padding: 7px 14px;
         font-size: 0.85rem;
+    }
+    
+    #prediction-result {
+        padding: 10px;
+        min-height: 40px;
     }
 }
 
@@ -418,10 +479,37 @@ button:hover {
     #weather-text {
         font-size: 1.2rem;
         margin-bottom: 10px;
+        min-height: 25px;
     }
     
     #search-container {
         margin-top: 15px;
         gap: 10px;
     }
+    
+    #prediction-result {
+        margin-top: 15px;
+        padding: 10px;
+        min-height: 35px;
+    }
+}
+
+/* Animation for prediction result */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#prediction-result.has-content {
+    animation: fadeIn 0.5s ease-out;
+}
+
+#weather-details.has-content {
+    animation: fadeIn 0.5s ease-out;
 }
