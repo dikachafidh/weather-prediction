@@ -79,7 +79,18 @@ async function predictWeather() {
         } else {
             const tanggal = data.tanggal;
             const prediksi = data.prediksi_cuaca;
-            resultDiv.innerHTML = `<h3>Prediksi Cuaca untuk ${tanggal}: <strong>${prediksi}</strong></h3>`;
+             resultDiv.innerHTML = `
+<div style="margin-top: 20px; padding: 15px; font-size: 12px; background: rgba(255,255,255,0.2); border-radius: 10px; backdrop-filter: blur(10px);">
+                    <div style="text-align: center;">
+                        <p><strong>🌡️ Suhu Maksimum:</strong> ${data.temp_max}°C</p>
+                        <p><strong>🌡️ Suhu Minimum:</strong> ${data.temp_min}°C</p>
+                        <p><strong>💧 Curah Hujan:</strong> ${data.precipitation} inch</p>
+                        <p><strong>💨 Kecepatan Angin:</strong> ${data.wind} mph</p>
+                    </div>
+                </div>
+            `;
+            
+            // Update tampilan background sesuai cuaca
             updateWeatherDisplay(prediksi);
         }
     } catch (error) {
