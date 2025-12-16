@@ -96,7 +96,14 @@ def predict_weather(tanggal_input):
         pred = rf_model.predict(new_data_scaled)
         label = le.inverse_transform(pred)[0]
         
-        return {"tanggal": tanggal_input, "prediksi_cuaca": label}
+        return {
+            "tanggal": tanggal_input,
+            "prediksi_cuaca": label,
+            "precipitation": round(precipitation, 2),
+            "temp_max": round(temp_max, 2),
+            "temp_min": round(temp_min, 2),
+            "wind": round(wind, 2)
+            }
     except Exception as e:
         return {"error": f"Prediction error: {str(e)}"}
 
@@ -136,6 +143,13 @@ def user_dashboard():
     if 'logged_in' in session and session['username'] == 'user':
         today = date.today().strftime('%Y-%m-%d')
         current_weather = predict_weather(today)
+        
+        # DEBUG: Print data yang dikirim ke template
+        print("="*50)
+        print("DEBUG - Current Weather Data:")
+        print(current_weather)
+        print("="*50)
+        
         return render_template('index.html', username=session['username'], current_weather=current_weather)
     return redirect(url_for('login'))
 
