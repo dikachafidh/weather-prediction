@@ -1,24 +1,136 @@
-/* ======================================
-   FIX FONT & TEXT ISSUES
-   ====================================== */
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Pastikan semua teks menggunakan font yang konsisten */
-body, #greeting, #weather-text, .text, button, input, .prediction-title {
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    transition: background-image 0.5s ease-in-out;
 }
 
-/* ======================================
-   FIX LAYOUT CONTAINER
-   ====================================== */
+body {
+    min-height: 100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Theme Backgrounds */
+.default {
+    background-image: url('../images/home.png');
+}
+
+.cerah {
+    background-image: url('../images/sun.jpg');
+}
+
+.hujan {
+    background-image: url('../images/rain.jpg');
+}
+
+.gerimis {
+    background-image: url('../images/drizzle2.png');
+}
+
+.kabut {
+    background-image: url('../images/Fog.jpg');
+}
+
+.salju {
+    background-image: url('../images/Snow.jpg');
+}
+
+/* Navigation */
+#nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-brand h1 {
+    color: white;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.nav-brand i {
+    font-size: 1.8rem;
+    color: #4dabf7;
+}
+
+/* Hamburger Menu (Mobile Only) */
+label[for="humberger"] {
+    display: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+#humberger {
+    display: none;
+}
+
+/* Navigation Links */
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+.logout-btn i {
+    font-size: 1.2em;
+}
+
+/* Hero Section */
 #hero-container {
     min-height: 100vh;
     display: flex;
@@ -27,405 +139,252 @@ body, #greeting, #weather-text, .text, button, input, .prediction-title {
     padding: 100px 20px 40px;
     max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
 }
 
 .text {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     text-align: center;
     color: #fff;
     width: 90%;
     max-width: 600px;
     margin: 0 auto;
-    position: relative;
-    overflow: hidden;
 }
 
-/* Gradient overlay untuk kontras yang lebih baik */
-.text::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.1) 50%, 
-        rgba(0, 0, 0, 0.3) 100%);
-    z-index: -1;
-    border-radius: 20px;
-}
-
-/* ======================================
-   FIX TEXT ELEMENTS
-   ====================================== */
 #greeting {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
     color: white;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 #weather-text {
-    font-size: 2rem;
-    margin-bottom: 25px;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
     color: white;
-    min-height: 60px;
-    font-weight: 600;
-    line-height: 1.3;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    min-height: 50px;
 }
 
-/* Pastikan prediksi cuaca text tidak terpotong */
-#weather-text::after {
-    content: '';
-    display: none;
+/* Weather Details - Hidden by default */
+#weather-details {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: none; /* Hidden by default */
 }
 
-/* ======================================
-   FIX SEARCH CONTAINER LAYOUT
-   ====================================== */
+#weather-details.has-content {
+    display: block; /* Show when has content */
+}
+
+#weather-details p {
+    font-style: italic;
+    font-size: 1.1em;
+    line-height: 1.4;
+    text-align: center;
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 0;
+}
+
+/* Search Container */
 #search-container {
-    margin-top: 30px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     position: relative;
-    z-index: 1;
 }
 
-/* Container untuk input dan button */
-.search-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-}
-
-/* ======================================
-   FIX DATE INPUT - IMPROVED VERSION
-   ====================================== */
+/* Custom date input styling */
 .date-input-wrapper {
     position: relative;
     width: 100%;
-    margin-bottom: 5px;
-}
-
-.date-input-wrapper label {
-    display: block;
-    margin-bottom: 8px;
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-    font-size: 1.1rem;
-    text-align: left;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .date-input-wrapper input[type="date"] {
-    padding: 16px 50px 16px 20px;
-    border-radius: 12px;
+    padding: 14px 45px 14px 14px; /* Space for icon */
+    border-radius: 8px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
-    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
     width: 100%;
-    color: white;
+    color: #333;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    font-weight: 500;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
-    min-height: 56px;
 }
 
-.date-input-wrapper input[type="date"]:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+/* Calendar icon */
+.date-input-wrapper::after {
+    content: '\f073'; /* FontAwesome calendar icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 1.2rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Remove default calendar icon on WebKit browsers */
+.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Hide default icon */
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Placeholder styling */
+.date-input-wrapper input[type="date"]:invalid {
+    color: #666;
 }
 
 .date-input-wrapper input[type="date"]:focus {
     outline: none;
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
-/* Kalender icon yang lebih jelas */
-.date-input-wrapper::after {
-    content: '\f073';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
+/* Untuk browser yang tidak support ::after */
+.date-input-wrapper .calendar-icon {
     position: absolute;
-    right: 20px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.4rem;
-    pointer-events: none;
-    z-index: 1;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-/* Placeholder styling */
-.date-input-wrapper input[type="date"]::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 400;
-}
-
-.date-input-wrapper input[type="date"]:invalid {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* ======================================
-   FIX BUTTON
-   ====================================== */
-button {
-    padding: 18px 30px;
-    background: linear-gradient(135deg, #4CAF50, #2E7D32);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 700;
+    color: #666;
     font-size: 1.2rem;
-    transition: all 0.3s ease;
-    width: 100%;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.5px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    pointer-events: none;
+    display: none; /* Hide by default, show if needed */
 }
 
-button:hover {
-    background: linear-gradient(135deg, #45a049, #1B5E20);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-button:active {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* ======================================
-   FIX PREDICTION RESULT BOX
-   ====================================== */
+/* Prediction Result - Hidden by default */
 #prediction-result {
-    margin-top: 25px;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    display: none;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.5s ease-out;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: none; /* Hidden by default */
 }
 
 #prediction-result.has-content {
+    display: block; /* Show when has content */
+}
+
+/* Styling untuk hasil prediksi */
+.prediction-title {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.95);
+    text-align: center;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.result-item {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.result-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.result-label {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
     display: block;
 }
 
-.prediction-title {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: rgba(255, 255, 255, 0.95);
+.result-value {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: white;
+}
+
+.prediction-summary {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
     text-align: center;
-    font-weight: 700;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 10px;
 }
 
-/* ======================================
-   MOBILE FIXES - CRITICAL
-   ====================================== */
-@media (max-width: 768px) {
-    .text {
-        padding: 30px 20px;
-        border-radius: 15px;
-        width: 95%;
-        margin-top: 20px;
-    }
-    
-    #greeting {
-        font-size: 2rem;
-        margin-bottom: 15px;
-        line-height: 1.3;
-    }
-    
-    #weather-text {
-        font-size: 1.6rem;
-        min-height: 50px;
-        margin-bottom: 20px;
-        line-height: 1.3;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 14px 45px 14px 15px;
-        font-size: 1rem;
-        border-radius: 10px;
-        min-height: 52px;
-    }
-    
-    .date-input-wrapper::after {
-        right: 15px;
-        font-size: 1.2rem;
-    }
-    
-    .date-input-wrapper label {
-        font-size: 1rem;
-        margin-bottom: 6px;
-    }
-    
-    button {
-        padding: 16px;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        min-height: 56px;
-    }
-    
-    .prediction-title {
-        font-size: 1.5rem;
-    }
+/* Button */
+button {
+    padding: 14px 30px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
-@media (max-width: 600px) {
-    #hero-container {
-        padding: 80px 15px 30px;
-        align-items: flex-start;
-        min-height: calc(100vh - 80px);
-    }
-    
-    .text {
-        padding: 25px 15px;
-        border-radius: 12px;
-        margin-top: 10px;
-    }
-    
-    #greeting {
-        font-size: 1.8rem;
-        margin-bottom: 12px;
-    }
-    
-    #weather-text {
-        font-size: 1.4rem;
-        min-height: 45px;
-        margin-bottom: 15px;
-    }
-    
-    #search-container {
-        margin-top: 20px;
-        gap: 15px;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 13px 40px 13px 12px;
-        font-size: 0.95rem;
-        min-height: 48px;
-    }
-    
-    button {
-        padding: 14px;
-        font-size: 1rem;
-        min-height: 52px;
-    }
+button:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 400px) {
-    #greeting {
-        font-size: 1.6rem;
-    }
-    
-    #weather-text {
-        font-size: 1.3rem;
-        min-height: 40px;
-    }
-    
-    .text {
-        padding: 20px 12px;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 12px 35px 12px 10px;
-        font-size: 0.9rem;
-        min-height: 44px;
-    }
-    
-    .date-input-wrapper::after {
-        right: 12px;
-        font-size: 1rem;
-    }
-    
-    button {
-        padding: 12px;
-        font-size: 0.95rem;
-        min-height: 48px;
-    }
-    
-    .prediction-title {
-        font-size: 1.3rem;
-    }
+/* Loading spinner */
+.loading-spinner {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
 }
 
-/* ======================================
-   FIX FOR VERY SMALL SCREENS
-   ====================================== */
-@media (max-width: 320px) {
-    #greeting {
-        font-size: 1.4rem;
-    }
-    
-    #weather-text {
-        font-size: 1.1rem;
-    }
-    
-    .text {
-        padding: 15px 10px;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 10px 30px 10px 8px;
-        font-size: 0.85rem;
-    }
-    
-    button {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
+.fa-spinner {
+    margin-right: 8px;
 }
 
-/* ======================================
-   ANIMATION FIX
-   ====================================== */
+/* Error message */
+.error-message {
+    color: #ff6b6b;
+    text-align: center;
+    padding: 10px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+/* Animation for elements */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -433,7 +392,271 @@ button:active {
     }
 }
 
+#prediction-result.has-content,
+#weather-details.has-content {
+    animation: fadeIn 0.5s ease-out;
+}
+
 /* ======================================
-   FONT LOAD FALLBACK
+   RESPONSIVE DESIGN - TABLET (768px ke bawah)
    ====================================== */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@media (max-width: 768px) {
+    .nav-brand h1 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-brand i {
+        font-size: 1.5rem;
+    }
+    
+    #greeting {
+        font-size: 1.8rem;
+    }
+    
+    #weather-text {
+        font-size: 1.5rem;
+        min-height: 40px;
+    }
+    
+    .text {
+        padding: 25px 20px;
+    }
+    
+    #prediction-result {
+        padding: 15px;
+    }
+    
+    .prediction-title {
+        font-size: 1.2rem;
+    }
+    
+    /* Date input tablet */
+    .date-input-wrapper input[type="date"] {
+        padding: 12px 40px 12px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .date-input-wrapper::after {
+        right: 12px;
+        font-size: 1.1rem;
+    }
+}
+
+/* ======================================
+   RESPONSIVE DESIGN - MOBILE (600px ke bawah)
+   ====================================== */
+@media (max-width: 600px) {
+    /* Navigation Mobile */
+    label[for="humberger"] {
+        display: block;
+        order: -1;
+    }
+    
+    #humberger:checked ~ .nav-brand,
+    #humberger:checked ~ nav {
+        display: block;
+    }
+    
+    .nav-flex {
+        flex-wrap: wrap;
+        padding: 10px 15px;
+    }
+    
+    .nav-brand {
+        width: calc(100% - 50px);
+        order: 2;
+    }
+    
+    .nav-brand h1 {
+        font-size: 1.1rem;
+        justify-content: center;
+    }
+    
+    nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        margin-top: 10px;
+    }
+    
+    #humberger:checked ~ nav {
+        display: block;
+    }
+    
+    nav ul {
+        justify-content: center;
+    }
+    
+    .logout-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        justify-content: center;
+    }
+    
+    /* Hero Section Mobile */
+    #hero-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .text {
+        width: 95%;
+        padding: 20px 15px;
+        margin-top: 0;
+    }
+    
+    #greeting {
+        font-size: 1.6rem;
+        line-height: 1.3;
+    }
+    
+    #weather-text {
+        font-size: 1.3rem;
+        line-height: 1.3;
+        min-height: 35px;
+    }
+    
+    /* Search Container Mobile */
+    #search-container {
+        margin-top: 20px;
+        gap: 12px;
+    }
+    
+    .date-input-wrapper input[type="date"] {
+        padding: 12px 40px 12px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .date-input-wrapper::after {
+        right: 12px;
+        font-size: 1.1rem;
+    }
+    
+    button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    /* Fix input tanggal untuk mobile */
+    #search-container input[type="date"] {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    #search-container input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 12px;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+    
+    /* Grid responsive untuk mobile */
+    .result-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .result-item {
+        padding: 10px;
+    }
+    
+    #prediction-result {
+        padding: 15px;
+    }
+}
+
+/* ======================================
+   RESPONSIVE DESIGN - SMALL MOBILE (400px ke bawah)
+   ====================================== */
+@media (max-width: 400px) {
+    .nav-brand h1 {
+        font-size: 1rem;
+    }
+    
+    .nav-brand i {
+        font-size: 1.2rem;
+    }
+    
+    #greeting {
+        font-size: 1.4rem;
+    }
+    
+    #weather-text {
+        font-size: 1.1rem;
+        min-height: 30px;
+    }
+    
+    .text {
+        padding: 15px 12px;
+    }
+    
+    .date-input-wrapper input[type="date"] {
+        padding: 10px 35px 10px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .date-input-wrapper::after {
+        right: 10px;
+        font-size: 1rem;
+    }
+    
+    button {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+    
+    .logout-btn {
+        padding: 7px 14px;
+        font-size: 0.85rem;
+    }
+    
+    #prediction-result {
+        padding: 12px;
+    }
+    
+    .prediction-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* ======================================
+   RESPONSIVE DESIGN - LANDSCAPE MODE
+   ====================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    #hero-container {
+        padding-top: 70px;
+        min-height: auto;
+    }
+    
+    .text {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
+    #greeting {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    #weather-text {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        min-height: 25px;
+    }
+    
+    #search-container {
+        margin-top: 15px;
+        gap: 10px;
+    }
+    
+    #prediction-result {
+        margin-top: 15px;
+        padding: 10px;
+    }
+}
+
+pada gambar pertama ada kotak di atas bening putih itu di hapus aja mendingan atau di hilangkan, di gambar kedua kotak tanggal itu samakan seperti kota tulisan prediksi cuaca dong
