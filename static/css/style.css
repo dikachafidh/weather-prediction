@@ -142,13 +142,9 @@ nav ul {
 }
 
 .text {
-    background: rgba(255, 255, 255, 0);
+    background: transparent;
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     text-align: center;
     color: #fff;
     width: 90%;
@@ -176,11 +172,11 @@ nav ul {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 #weather-details.has-content {
-    display: block; /* Show when has content */
+    display: block;
 }
 
 #weather-details p {
@@ -205,38 +201,32 @@ nav ul {
     position: relative;
 }
 
-/* Custom date input styling */
+/* Custom date input styling - BUTTON STYLE */
 .date-input-wrapper {
     position: relative;
     width: 100%;
 }
 
 .date-input-wrapper input[type="date"] {
-    padding: 14px 45px 14px 14px; /* Space for icon */
+    padding: 14px 30px;
     border-radius: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
+    border: none;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    font-size: 1.1rem;
     width: 100%;
-    color: #333;
+    color: white;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
-/* Calendar icon */
-.date-input-wrapper::after {
-    content: '\f073'; /* FontAwesome calendar icon */
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 1.2rem;
-    pointer-events: none;
-    z-index: 1;
+.date-input-wrapper input[type="date"]:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Remove default calendar icon on WebKit browsers */
@@ -246,32 +236,19 @@ nav ul {
     top: 0;
     width: 100%;
     height: 100%;
-    opacity: 0; /* Hide default icon */
+    opacity: 0;
     cursor: pointer;
     z-index: 2;
 }
 
-/* Placeholder styling */
+/* Color styling for date input */
 .date-input-wrapper input[type="date"]:invalid {
-    color: #666;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .date-input-wrapper input[type="date"]:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-}
-
-/* Untuk browser yang tidak support ::after */
-.date-input-wrapper .calendar-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 1.2rem;
-    pointer-events: none;
-    display: none; /* Hide by default, show if needed */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Prediction Result - Hidden by default */
@@ -281,11 +258,11 @@ nav ul {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 #prediction-result.has-content {
-    display: block; /* Show when has content */
+    display: block;
 }
 
 /* Styling untuk hasil prediksi */
@@ -432,13 +409,13 @@ button:hover {
     
     /* Date input tablet */
     .date-input-wrapper input[type="date"] {
-        padding: 12px 40px 12px 12px;
+        padding: 12px;
         font-size: 0.95rem;
     }
     
-    .date-input-wrapper::after {
-        right: 12px;
-        font-size: 1.1rem;
+    button {
+        padding: 12px;
+        font-size: 1rem;
     }
 }
 
@@ -522,36 +499,13 @@ button:hover {
     }
     
     .date-input-wrapper input[type="date"] {
-        padding: 12px 40px 12px 12px;
+        padding: 12px;
         font-size: 0.95rem;
-    }
-    
-    .date-input-wrapper::after {
-        right: 12px;
-        font-size: 1.1rem;
     }
     
     button {
         padding: 12px;
         font-size: 1rem;
-    }
-    
-    /* Fix input tanggal untuk mobile */
-    #search-container input[type="date"] {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        -webkit-appearance: none;
-        appearance: none;
-    }
-    
-    #search-container input[type="date"]::-webkit-calendar-picker-indicator {
-        position: absolute;
-        right: 12px;
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
     }
     
     /* Grid responsive untuk mobile */
@@ -595,13 +549,8 @@ button:hover {
     }
     
     .date-input-wrapper input[type="date"] {
-        padding: 10px 35px 10px 10px;
+        padding: 10px;
         font-size: 0.9rem;
-    }
-    
-    .date-input-wrapper::after {
-        right: 10px;
-        font-size: 1rem;
     }
     
     button {
@@ -658,4 +607,3 @@ button:hover {
         padding: 10px;
     }
 }
-
