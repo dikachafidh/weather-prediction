@@ -25,49 +25,34 @@ body {
 }
 
 /* Theme Backgrounds */
-.default {
-    background-image: url('../images/home.png');
-}
+.default { background-image: url('../images/home.png'); }
+.cerah { background-image: url('../images/sun.jpg'); }
+.hujan { background-image: url('../images/rain.jpg'); }
+.gerimis { background-image: url('../images/drizzle2.png'); }
+.kabut { background-image: url('../images/Fog.jpg'); }
+.salju { background-image: url('../images/Snow.jpg'); }
 
-.cerah {
-    background-image: url('../images/sun.jpg');
-}
-
-.hujan {
-    background-image: url('../images/rain.jpg');
-}
-
-.gerimis {
-    background-image: url('../images/drizzle2.png');
-}
-
-.kabut {
-    background-image: url('../images/Fog.jpg');
-}
-
-.salju {
-    background-image: url('../images/Snow.jpg');
-}
-
-/* Navigation - PERBAIKAN: Hilangkan garis/batas bawah */
+/* ======================================
+   NAVIGATION - PERBAIKAN: SEKAT DIHILANGKAN
+   ====================================== */
 #nav-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    /* HAPUS border-bottom untuk menghilangkan garis */
-    border-bottom: none;
+    background-color: rgba(0, 0, 0, 0.3); /* Transparansi halus */
+    /* Menghilangkan border-bottom dan backdrop-filter agar tidak ada sekat blur yang kaku */
+    border-bottom: none; 
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .nav-flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -78,605 +63,114 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 0;
-    font-weight: 500; /* Lebih tipis sesuai gambar */
-    text-shadow: none; /* Hilangkan shadow untuk lebih clean */
 }
 
-.nav-brand i {
-    font-size: 1.8rem;
-    color: white; /* Ubah jadi putih sesuai gambar */
-}
-
-/* Hamburger Menu (Mobile Only) */
-label[for="humberger"] {
-    display: none;
-    color: white;
-    font-size: 1.8rem;
-    cursor: pointer;
-    margin-right: 15px;
-}
-
-#humberger {
-    display: none;
-}
-
-/* Navigation Links */
-nav ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
+/* Logout Button */
 .logout-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border lebih tipis */
-    padding: 10px 20px;
-    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 18px;
+    border-radius: 20px;
     text-decoration: none;
-    font-weight: 500; /* Lebih tipis */
+    font-weight: 600;
     transition: all 0.3s ease;
-    font-size: 0.95rem;
-    backdrop-filter: blur(5px);
 }
 
-.logout-btn:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px);
-}
-
-.logout-btn i {
-    font-size: 1.1em;
-}
-
-/* Hero Section */
+/* ======================================
+   HERO SECTION
+   ====================================== */
 #hero-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 100px 20px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .text {
-    background: rgba(255, 255, 255, 0);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Border lebih tipis */
+    background: transparent; /* Membuat background bersih sesuai permintaan */
     text-align: center;
-    color: #fff;
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
 }
 
-#greeting {
-    font-size: 2.2rem;
-    margin-bottom: 10px; /* Kurangi margin */
-    color: white;
-    font-weight: 500; /* Lebih tipis */
-}
+#greeting { font-size: 2.2rem; margin-bottom: 10px; }
+#weather-text { font-size: 1.5rem; margin-bottom: 25px; }
 
-#weather-text {
-    font-size: 1.6rem; /* Sedikit lebih kecil */
-    margin-bottom: 25px; /* Tambah margin untuk spacing yang lebih baik */
-    color: white;
-    min-height: 50px;
-    font-weight: 400; /* Normal weight */
-    opacity: 0.9; /* Sedikit transparan */
-}
-
-/* Weather Details - SELALU DIHILANGKAN */
-#weather-details {
-    display: none !important;
-}
-
-/* Search Container */
+/* ======================================
+   SEARCH CONTAINER - PERBAIKAN INPUT & TOMBOL
+   ====================================== */
 #search-container {
-    margin-top: 25px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    position: relative;
 }
 
-/* PERBAIKAN TOTAL: Input tanggal dibuat PERSIS seperti tombol prediksi */
 .date-input-wrapper {
     position: relative;
     width: 100%;
 }
 
-/* PERBAIKAN: Input tanggal PERSIS seperti tombol prediksi */
+/* INPUT TANGGAL - Dibuat Putih & Identik dengan Tombol */
 .date-input-wrapper input[type="date"] {
     padding: 14px 20px;
-    border-radius: 8px;
+    border-radius: 10px; /* Rounded identik tombol */
     border: none;
-    background: linear-gradient(135deg, #3498db, #2980b9); /* SAMA PERSIS dengan tombol prediksi */
+    background: #f0f0f0; /* Warna putih keabuan seperti di gambar 2.png */
     font-size: 1.1rem;
     width: 100%;
-    color: white;
+    color: #333; /* Teks gelap agar terbaca di background putih */
     cursor: pointer;
     -webkit-appearance: none;
-    appearance: none;
-    font-weight: 600; /* Sama dengan tombol */
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    /* Tambahkan untuk teks placeholder/date */
-    letter-spacing: 0.5px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-shadow: none; /* Hilangkan shadow teks untuk input */
 }
 
-/* Styling untuk placeholder/date kosong */
-.date-input-wrapper input[type="date"]:invalid {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-/* PERBAIKAN: Hover effect SAMA dengan tombol prediksi */
-.date-input-wrapper input[type="date"]:hover {
-    background: linear-gradient(135deg, #2980b9, #1f639b);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* PERBAIKAN: Focus effect SAMA dengan tombol prediksi */
-.date-input-wrapper input[type="date"]:focus {
-    outline: none;
-    background: linear-gradient(135deg, #1f639b, #1a5276);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-}
-
-/* PERBAIKAN: Icon kalender - tetap tapi lebih halus */
+/* Icon kalender di dalam input putih */
 .date-input-wrapper::after {
-    content: '\f073';
+    content: '\f073'; 
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     position: absolute;
-    right: 20px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.9); /* Sedikit transparan */
-    font-size: 1.1rem;
+    color: #666;
     pointer-events: none;
-    z-index: 1;
 }
 
-/* Remove default calendar icon */
-.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-}
-
-/* PERBAIKAN: Untuk teks tanggal yang sudah dipilih */
-.date-input-wrapper input[type="date"]:valid {
-    color: white;
-}
-
-/* Button - TOMBOL PREDIKSI CUACA */
+/* TOMBOL PREDIKSI CUACA - Tetap Biru namun Bentuk Sama */
 button {
-    padding: 14px 30px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    padding: 14px 20px;
+    background: #3498db;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: bold;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
     width: 100%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
 }
 
 button:hover {
-    background: linear-gradient(135deg, #2980b9, #1f639b);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    background: #2980b9;
 }
 
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+/* Sembunyikan Detail Cuaca Sesuai Instruksi */
+#weather-details {
+    display: none !important;
 }
 
-/* Prediction Result */
-#prediction-result {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Border lebih tipis */
-    display: none;
-    backdrop-filter: blur(5px);
-}
-
-#prediction-result.has-content {
-    display: block;
-}
-
-/* Styling untuk hasil prediksi */
-.prediction-title {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: rgba(255, 255, 255, 0.95);
-    text-align: center;
-    font-weight: 500;
-}
-
-.result-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.result-item {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.result-item:hover {
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.result-label {
-    font-size: 0.85em;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 5px;
-    display: block;
-    font-weight: 400;
-}
-
-.result-value {
-    font-weight: 600;
-    font-size: 1.2em;
-    color: white;
-}
-
-.prediction-summary {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.95);
-    margin-top: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-weight: 400;
-}
-
-/* Loading spinner */
-.loading-spinner {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    font-weight: 400;
-}
-
-.fa-spinner {
-    margin-right: 8px;
-}
-
-/* Error message */
-.error-message {
-    color: #ff6b6b;
-    text-align: center;
-    padding: 10px;
-    background: rgba(255, 107, 107, 0.1);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 107, 107, 0.2);
-    font-weight: 400;
-}
-
-/* Animation for elements */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#prediction-result.has-content {
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - TABLET (768px ke bawah)
-   ====================================== */
-@media (max-width: 768px) {
-    .nav-brand h1 {
-        font-size: 1.2rem;
-    }
-    
-    .nav-brand i {
-        font-size: 1.5rem;
-    }
-    
-    #greeting {
-        font-size: 1.8rem;
-    }
-    
-    #weather-text {
-        font-size: 1.4rem;
-        min-height: 40px;
-    }
-    
-    .text {
-        padding: 25px 20px;
-    }
-    
-    #prediction-result {
-        padding: 15px;
-    }
-    
-    .prediction-title {
-        font-size: 1.2rem;
-    }
-    
-    /* Date input tablet */
-    .date-input-wrapper input[type="date"] {
-        padding: 12px 40px 12px 20px;
-        font-size: 1rem;
-    }
-    
-    .date-input-wrapper::after {
-        right: 15px;
-        font-size: 1rem;
-    }
-    
-    button {
-        padding: 12px;
-        font-size: 1rem;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - MOBILE (600px ke bawah)
-   ====================================== */
+/* Mobile Responsive */
 @media (max-width: 600px) {
-    /* Navigation Mobile */
-    label[for="humberger"] {
-        display: block;
-        order: -1;
-    }
-    
-    #humberger:checked ~ .nav-brand,
-    #humberger:checked ~ nav {
-        display: block;
-    }
-    
-    .nav-flex {
-        flex-wrap: wrap;
-        padding: 10px 15px;
-    }
-    
-    .nav-brand {
-        width: calc(100% - 50px);
-        order: 2;
-    }
-    
-    .nav-brand h1 {
-        font-size: 1.1rem;
-        justify-content: center;
-    }
-    
-    nav {
-        display: none;
-        width: 100%;
-        order: 3;
-        margin-top: 10px;
-    }
-    
-    #humberger:checked ~ nav {
-        display: block;
-    }
-    
-    nav ul {
-        justify-content: center;
-    }
-    
-    .logout-btn {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        justify-content: center;
-    }
-    
-    /* Hero Section Mobile */
-    #hero-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .text {
-        width: 95%;
-        padding: 20px 15px;
-        margin-top: 0;
-    }
-    
-    #greeting {
-        font-size: 1.6rem;
-        line-height: 1.3;
-    }
-    
-    #weather-text {
-        font-size: 1.2rem;
-        line-height: 1.3;
-        min-height: 35px;
-        margin-bottom: 20px;
-    }
-    
-    /* Search Container Mobile */
-    #search-container {
-        margin-top: 20px;
-        gap: 12px;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 12px 40px 12px 15px;
-        font-size: 0.95rem;
-    }
-    
-    .date-input-wrapper::after {
-        right: 12px;
-        font-size: 1rem;
-    }
-    
-    button {
-        padding: 12px;
-        font-size: 1rem;
-    }
-    
-    /* Fix input tanggal untuk mobile */
-    #search-container input[type="date"] {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        -webkit-appearance: none;
-        appearance: none;
-    }
-    
-    #search-container input[type="date"]::-webkit-calendar-picker-indicator {
-        position: absolute;
-        right: 12px;
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-    }
-    
-    /* Grid responsive untuk mobile */
-    .result-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .result-item {
-        padding: 10px;
-    }
-    
-    #prediction-result {
-        padding: 15px;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - SMALL MOBILE (400px ke bawah)
-   ====================================== */
-@media (max-width: 400px) {
-    .nav-brand h1 {
-        font-size: 1rem;
-    }
-    
-    .nav-brand i {
-        font-size: 1.2rem;
-    }
-    
-    #greeting {
-        font-size: 1.4rem;
-    }
-    
-    #weather-text {
-        font-size: 1.1rem;
-        min-height: 30px;
-        margin-bottom: 15px;
-    }
-    
-    .text {
-        padding: 15px 12px;
-    }
-    
-    .date-input-wrapper input[type="date"] {
-        padding: 10px 35px 10px 12px;
-        font-size: 0.9rem;
-    }
-    
-    .date-input-wrapper::after {
-        right: 10px;
-        font-size: 0.9rem;
-    }
-    
-    button {
-        padding: 10px;
-        font-size: 0.95rem;
-    }
-    
-    .logout-btn {
-        padding: 7px 14px;
-        font-size: 0.85rem;
-    }
-    
-    #prediction-result {
-        padding: 12px;
-    }
-    
-    .prediction-title {
-        font-size: 1.1rem;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - LANDSCAPE MODE
-   ====================================== */
-@media (max-height: 500px) and (orientation: landscape) {
-    #hero-container {
-        padding-top: 70px;
-        min-height: auto;
-    }
-    
-    .text {
-        margin: 20px auto;
-        padding: 15px;
-    }
-    
-    #greeting {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
-    
-    #weather-text {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        min-height: 25px;
-    }
-    
-    #search-container {
-        margin-top: 15px;
-        gap: 10px;
-    }
-    
-    #prediction-result {
-        margin-top: 15px;
-        padding: 10px;
-    }
-}
-
-/* PERBAIKAN: Fallback untuk FontAwesome tidak tersedia */
-.fallback-icon::before {
-    content: "📅";
-    font-family: Arial, sans-serif;
+    .nav-flex { padding: 15px; }
+    #greeting { font-size: 1.8rem; }
+    .text { width: 90%; }
 }
