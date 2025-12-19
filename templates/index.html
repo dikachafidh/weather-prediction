@@ -13,7 +13,9 @@
             <label for="hamburger" class="hamburger-label">
                 <i class="fas fa-bars"></i>
             </label>
+            <input type="checkbox" id="hamburger">
             <div class="nav-brand">
+                <!-- PERUBAHAN: Hilangkan latar belakang dan border -->
                 <h1><i class="fas fa-city"></i> Seattle City, USA</h1>
             </div>
             <nav>
@@ -34,16 +36,22 @@
             <h1 id="greeting">Hello, {{ username }}</h1>
             <h2 id="weather-text"></h2>
             
-            <!-- PERUBAHAN: Container untuk date input yang lebih baik -->
+            <!-- PERUBAHAN: Container untuk input tanggal dan tombol -->
             <div id="search-container">
+                <!-- Input tanggal dengan wrapper -->
                 <div class="input-wrapper">
-                    <input type="date" id="searchDate">
+                    <input type="date" id="searchDate" required>
+                    <span class="placeholder">Pilih Tanggal</span>
                     <i class="fas fa-calendar-alt"></i>
                 </div>
+                
+                <!-- Tombol prediksi -->
                 <button onclick="predictWeather()">
                     <i class="fas fa-cloud-sun"></i> Prediksi Cuaca
                 </button>
             </div>
+            
+            <!-- Hasil prediksi -->
             <div id="prediction-result"></div>
         </div>
     </div>
@@ -51,4 +59,3 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
-
