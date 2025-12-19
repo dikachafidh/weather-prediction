@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Predict</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Predict</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body id="weather-body" class="default">
-    <div id="nav-container">
-        <div class="nav-flex">
-            <label for="humberger">&#9776;</label>
-            <input type="checkbox" id="humberger">
-            <div class="nav-brand">
-                <h1><span><i class="fas fa-cloud-sun-rain"></i></span> Seattle City, USA</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li>
+    <div id="nav-container">
+        <div class="nav-flex">
+            <label for="hamburger" class="hamburger-label">
+                <i class="fas fa-bars"></i>
+            </label>
+            <input type="checkbox" id="hamburger">
+            <div class="nav-brand">
+                <!-- PERUBAHAN: Hilangkan latar belakang dan border -->
+                <h1><i class="fas fa-city"></i> Seattle City, USA</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
                         <a href="{{ url_for('logout') }}" class="logout-btn">
                             <span>Logout</span>
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
     <div id="hero-container">
         <div class="text">
             <h1 id="greeting">Hello, {{ username }}</h1>
             <h2 id="weather-text"></h2>
-            <div id="weather-details"></div> <!-- Kosong saat load -->
             
+            <!-- PERUBAHAN: Container untuk date input yang lebih baik -->
             <div id="search-container">
-                <input type="date" id="searchDate">
-                <button onclick="predictWeather()">Prediksi Cuaca</button>
+                <div class="input-wrapper">
+                    <input type="date" id="searchDate">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <button onclick="predictWeather()">
+                    <i class="fas fa-cloud-sun"></i> Prediksi Cuaca
+                </button>
             </div>
             <div id="prediction-result"></div>
         </div>
     </div>
+    
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
