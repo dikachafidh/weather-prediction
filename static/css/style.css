@@ -12,9 +12,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     transition: background-image 0.5s ease-in-out;
 }
 
@@ -54,7 +52,7 @@ body {
 }
 
 /* ======================================
-   NAVIGATION - PERBAIKAN
+   NAVIGATION
    ====================================== */
 #nav-container {
     position: fixed;
@@ -77,7 +75,6 @@ body {
     margin: 0 auto;
 }
 
-/* Nav brand tanpa background atau border */
 .nav-brand h1 {
     color: white;
     font-size: 1.4rem;
@@ -86,7 +83,6 @@ body {
     gap: 10px;
     margin: 0;
     font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .nav-brand i {
@@ -95,6 +91,10 @@ body {
 }
 
 /* Hamburger Menu */
+.hamburger-checkbox {
+    display: none;
+}
+
 .hamburger-label {
     display: none;
     color: white;
@@ -102,18 +102,20 @@ body {
     cursor: pointer;
     padding: 5px;
     transition: all 0.3s ease;
+    z-index: 1001;
 }
 
 .hamburger-label:hover {
     transform: scale(1.1);
+    color: #4dabf7;
 }
 
-#hamburger {
-    display: none;
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
 }
 
-/* Navigation Links */
-nav ul {
+.nav-menu ul {
     display: flex;
     list-style: none;
     margin: 0;
@@ -140,10 +142,6 @@ nav ul {
     transform: translateY(-2px);
 }
 
-.logout-btn i {
-    font-size: 1.2em;
-}
-
 /* ======================================
    HERO SECTION
    ====================================== */
@@ -166,7 +164,7 @@ nav ul {
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     text-align: center;
-    color: #fff;
+    color: white;
     width: 90%;
     max-width: 600px;
     margin: 0 auto;
@@ -175,22 +173,18 @@ nav ul {
 #greeting {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: white;
     font-weight: 700;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 #weather-text {
     font-size: 2rem;
     margin-bottom: 30px;
-    color: white;
     min-height: 60px;
     font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* ======================================
-   SEARCH CONTAINER - PERBAIKAN UTAMA
+   SEARCH CONTAINER - INPUT TANGGAL
    ====================================== */
 #search-container {
     margin-top: 30px;
@@ -200,22 +194,20 @@ nav ul {
     width: 100%;
 }
 
-/* Input wrapper untuk styling yang konsisten */
-.input-wrapper {
+/* Date Input Wrapper */
+.date-input-wrapper {
     position: relative;
     width: 100%;
-    height: 56px; /* Sama dengan tinggi tombol */
 }
 
 /* INPUT TANGGAL - WARNA PUTIH */
 #searchDate {
     width: 100%;
-    height: 100%;
-    padding: 0 50px 0 20px;
-    border-radius: 12px; /* Sama dengan tombol */
+    padding: 16px 50px 16px 20px;
+    border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.95); /* Background putih */
-    color: #333; /* Text hitam */
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
@@ -226,41 +218,29 @@ nav ul {
     outline: none;
 }
 
-/* Placeholder custom */
-.input-wrapper .placeholder {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+/* Placeholder styling */
+#searchDate::before {
+    content: "Pilih Tanggal";
     color: #666;
-    font-size: 1.1rem;
-    font-weight: 600;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 1;
 }
 
-/* Hide placeholder when input has value or is focused */
-#searchDate:valid ~ .placeholder,
-#searchDate:focus ~ .placeholder {
-    opacity: 0;
-    visibility: hidden;
+#searchDate:valid::before {
+    content: "";
 }
 
-/* Icon kalender - warna biru untuk kontras dengan background putih */
-.input-wrapper i {
+/* Icon kalender */
+.date-input-wrapper i {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #3498db; /* Warna biru */
+    color: #3498db;
     font-size: 1.2rem;
     pointer-events: none;
     z-index: 2;
-    transition: color 0.3s ease;
 }
 
-/* Hover effect untuk input tanggal */
+/* Hover & Focus effects */
 #searchDate:hover {
     background: white;
     transform: translateY(-2px);
@@ -272,7 +252,6 @@ nav ul {
     color: #2980b9;
 }
 
-/* Focus effect untuk input tanggal */
 #searchDate:focus {
     background: white;
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
@@ -284,20 +263,14 @@ nav ul {
     color: #1f639b;
 }
 
-/* Saat input memiliki value */
-#searchDate:valid {
-    color: #2c3e50;
-}
-
 /* TOMBOL PREDIKSI - WARNA BIRU */
 button {
     width: 100%;
-    height: 56px; /* Sama dengan tinggi input */
-    padding: 0 30px;
-    background: linear-gradient(135deg, #3498db, #2980b9); /* Gradient biru */
+    padding: 16px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
     border: none;
-    border-radius: 12px; /* Sama dengan input */
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 700;
     font-size: 1.1rem;
@@ -319,25 +292,6 @@ button:hover {
 
 button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-button i {
-    font-size: 1.2rem;
-}
-
-/* Hide default calendar picker icon */
-#searchDate::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 3;
 }
 
 /* ======================================
@@ -360,8 +314,6 @@ button i {
 .prediction-title {
     font-size: 1.4rem;
     margin-bottom: 20px;
-    color: rgba(255, 255, 255, 0.95);
-    text-align: center;
     font-weight: 700;
 }
 
@@ -397,8 +349,6 @@ button i {
 .result-value {
     font-weight: bold;
     font-size: 1.4em;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .prediction-summary {
@@ -407,7 +357,6 @@ button i {
     border-radius: 10px;
     text-align: center;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.95);
     margin-top: 15px;
     font-size: 1.1em;
 }
@@ -424,313 +373,7 @@ button i {
     }
 }
 
-/* ======================================
-   RESPONSIVE DESIGN - TABLET (768px ke bawah)
-   ====================================== */
-@media (max-width: 768px) {
-    .nav-flex {
-        padding: 12px 15px;
-    }
-    
-    .nav-brand h1 {
-        font-size: 1.3rem;
-    }
-    
-    .nav-brand i {
-        font-size: 1.3rem;
-    }
-    
-    #greeting {
-        font-size: 2rem;
-    }
-    
-    #weather-text {
-        font-size: 1.6rem;
-        min-height: 50px;
-    }
-    
-    .text {
-        padding: 30px 25px;
-    }
-    
-    /* Search container tablet */
-    #search-container {
-        gap: 15px;
-    }
-    
-    .input-wrapper {
-        height: 52px;
-    }
-    
-    #searchDate {
-        padding: 0 45px 0 18px;
-        font-size: 1rem;
-    }
-    
-    .input-wrapper i {
-        right: 15px;
-        font-size: 1.1rem;
-    }
-    
-    .input-wrapper .placeholder {
-        font-size: 1rem;
-        left: 18px;
-    }
-    
-    button {
-        height: 52px;
-        padding: 0 25px;
-        font-size: 1rem;
-    }
-    
-    /* Prediction result */
-    #prediction-result {
-        padding: 20px;
-    }
-    
-    .prediction-title {
-        font-size: 1.3rem;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - MOBILE (600px ke bawah)
-   ====================================== */
-@media (max-width: 600px) {
-    /* Navigation Mobile */
-    .hamburger-label {
-        display: block;
-        order: -1;
-        font-size: 1.4rem;
-    }
-    
-    .nav-flex {
-        flex-wrap: wrap;
-        padding: 10px 15px;
-        gap: 15px;
-    }
-    
-    .nav-brand {
-        order: 2;
-        width: calc(100% - 60px);
-        justify-content: flex-start;
-    }
-    
-    .nav-brand h1 {
-        font-size: 1.1rem;
-        justify-content: flex-start;
-    }
-    
-    nav {
-        display: none;
-        width: 100%;
-        order: 3;
-        margin-top: 10px;
-    }
-    
-    #hamburger:checked ~ nav {
-        display: block;
-    }
-    
-    nav ul {
-        justify-content: center;
-    }
-    
-    .logout-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px;
-    }
-    
-    /* Hero Section */
-    #hero-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .text {
-        width: 95%;
-        padding: 25px 20px;
-        margin-top: 10px;
-    }
-    
-    #greeting {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-    
-    #weather-text {
-        font-size: 1.4rem;
-        margin-bottom: 25px;
-        min-height: 40px;
-    }
-    
-    /* Search Container */
-    #search-container {
-        margin-top: 25px;
-        gap: 15px;
-    }
-    
-    .input-wrapper {
-        height: 50px;
-    }
-    
-    #searchDate {
-        padding: 0 40px 0 15px;
-        font-size: 0.95rem;
-    }
-    
-    .input-wrapper i {
-        right: 12px;
-        font-size: 1.1rem;
-    }
-    
-    .input-wrapper .placeholder {
-        font-size: 0.95rem;
-        left: 15px;
-    }
-    
-    button {
-        height: 50px;
-        padding: 0 20px;
-        font-size: 1rem;
-    }
-    
-    /* Prediction Result */
-    .result-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .result-item {
-        padding: 12px;
-    }
-    
-    #prediction-result {
-        padding: 18px;
-    }
-    
-    .prediction-title {
-        font-size: 1.2rem;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - SMALL MOBILE (400px ke bawah)
-   ====================================== */
-@media (max-width: 400px) {
-    .nav-brand h1 {
-        font-size: 1rem;
-    }
-    
-    .nav-brand i {
-        font-size: 1rem;
-    }
-    
-    .hamburger-label {
-        font-size: 1.2rem;
-    }
-    
-    #greeting {
-        font-size: 1.6rem;
-    }
-    
-    #weather-text {
-        font-size: 1.2rem;
-        min-height: 35px;
-    }
-    
-    .text {
-        padding: 20px 15px;
-    }
-    
-    /* Search Container */
-    .input-wrapper {
-        height: 48px;
-    }
-    
-    #searchDate {
-        padding: 0 35px 0 12px;
-        font-size: 0.9rem;
-    }
-    
-    .input-wrapper i {
-        right: 10px;
-        font-size: 1rem;
-    }
-    
-    .input-wrapper .placeholder {
-        font-size: 0.9rem;
-        left: 12px;
-    }
-    
-    button {
-        height: 48px;
-        padding: 0 15px;
-        font-size: 0.95rem;
-    }
-    
-    .logout-btn {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-    }
-    
-    /* Prediction Result */
-    #prediction-result {
-        padding: 15px;
-    }
-    
-    .prediction-title {
-        font-size: 1.1rem;
-    }
-}
-
-/* ======================================
-   RESPONSIVE DESIGN - LANDSCAPE MODE
-   ====================================== */
-@media (max-height: 500px) and (orientation: landscape) {
-    #hero-container {
-        padding-top: 70px;
-        min-height: auto;
-    }
-    
-    .text {
-        margin: 30px auto;
-        padding: 20px;
-    }
-    
-    #greeting {
-        font-size: 1.6rem;
-        margin-bottom: 10px;
-    }
-    
-    #weather-text {
-        font-size: 1.3rem;
-        margin-bottom: 20px;
-        min-height: 30px;
-    }
-    
-    #search-container {
-        margin-top: 20px;
-        gap: 15px;
-    }
-    
-    .input-wrapper {
-        height: 45px;
-    }
-    
-    #searchDate {
-        padding: 0 35px 0 15px;
-    }
-    
-    button {
-        height: 45px;
-        padding: 0 20px;
-    }
-}
-
-/* ======================================
-   UTILITY CLASSES
-   ====================================== */
+/* Loading & Error States */
 .loading-spinner {
     text-align: center;
     color: rgba(255, 255, 255, 0.8);
@@ -748,4 +391,171 @@ button i {
     background: rgba(255, 107, 107, 0.1);
     border-radius: 8px;
     border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+/* ======================================
+   RESPONSIVE DESIGN
+   ====================================== */
+@media (max-width: 768px) {
+    .nav-brand h1 {
+        font-size: 1.3rem;
+    }
+    
+    #greeting {
+        font-size: 2rem;
+    }
+    
+    #weather-text {
+        font-size: 1.6rem;
+    }
+    
+    .text {
+        padding: 30px 25px;
+    }
+    
+    #searchDate {
+        padding: 14px 45px 14px 18px;
+        font-size: 1rem;
+    }
+    
+    .date-input-wrapper i {
+        right: 15px;
+    }
+    
+    button {
+        padding: 14px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Hamburger Menu */
+    .hamburger-label {
+        display: block;
+        order: -1;
+        font-size: 1.4rem;
+    }
+    
+    .nav-flex {
+        flex-wrap: wrap;
+        padding: 10px 15px;
+    }
+    
+    .nav-brand {
+        order: 1;
+        width: calc(100% - 50px);
+    }
+    
+    .nav-brand h1 {
+        font-size: 1.1rem;
+    }
+    
+    .nav-menu {
+        display: none;
+        width: 100%;
+        order: 2;
+        margin-top: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        padding: 15px;
+    }
+    
+    .hamburger-checkbox:checked ~ .nav-menu {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    .nav-menu ul {
+        flex-direction: column;
+    }
+    
+    .logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Hero Section */
+    #hero-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .text {
+        width: 95%;
+        padding: 25px 20px;
+    }
+    
+    #greeting {
+        font-size: 1.8rem;
+    }
+    
+    #weather-text {
+        font-size: 1.4rem;
+    }
+    
+    #searchDate {
+        padding: 14px 40px 14px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .date-input-wrapper i {
+        right: 12px;
+    }
+    
+    button {
+        padding: 14px;
+    }
+    
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 400px) {
+    .nav-brand h1 {
+        font-size: 1rem;
+    }
+    
+    .hamburger-label {
+        font-size: 1.2rem;
+    }
+    
+    #greeting {
+        font-size: 1.6rem;
+    }
+    
+    #weather-text {
+        font-size: 1.2rem;
+    }
+    
+    #searchDate {
+        padding: 12px 35px 12px 12px;
+        font-size: 0.9rem;
+    }
+    
+    button {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Hide default calendar picker */
+#searchDate::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
