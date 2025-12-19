@@ -559,3 +559,42 @@ button:active {
     opacity: 0;
     cursor: pointer;
 }
+
+/* Styling untuk tanggal di greeting */
+#greeting span.date-subtitle {
+    display: block;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: normal;
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive untuk tanggal di greeting */
+@media (max-width: 768px) {
+    #greeting span.date-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    #greeting span.date-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+/* Styling untuk tooltip input tanggal */
+#searchDate:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+}
