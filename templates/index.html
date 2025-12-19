@@ -10,15 +10,16 @@
 <body id="weather-body" class="default">
     <div id="nav-container">
         <div class="nav-flex">
+            <input type="checkbox" id="hamburger" class="hamburger-checkbox">
             <label for="hamburger" class="hamburger-label">
                 <i class="fas fa-bars"></i>
             </label>
-            <input type="checkbox" id="hamburger">
+            
             <div class="nav-brand">
-                <!-- PERUBAHAN: Hilangkan latar belakang dan border -->
                 <h1><i class="fas fa-city"></i> Seattle City, USA</h1>
             </div>
-            <nav>
+            
+            <nav class="nav-menu">
                 <ul>
                     <li>
                         <a href="{{ url_for('logout') }}" class="logout-btn">
@@ -36,22 +37,19 @@
             <h1 id="greeting">Hello, {{ username }}</h1>
             <h2 id="weather-text"></h2>
             
-            <!-- PERUBAHAN: Container untuk input tanggal dan tombol -->
             <div id="search-container">
-                <!-- Input tanggal dengan wrapper -->
-                <div class="input-wrapper">
+                <!-- PERBAIKAN: Tambahkan class date-input-wrapper untuk styling -->
+                <div class="date-input-wrapper">
                     <input type="date" id="searchDate" required>
-                    <span class="placeholder">Pilih Tanggal</span>
                     <i class="fas fa-calendar-alt"></i>
                 </div>
                 
-                <!-- Tombol prediksi -->
-                <button onclick="predictWeather()">
+                <button id="predictBtn" onclick="predictWeather()">
                     <i class="fas fa-cloud-sun"></i> Prediksi Cuaca
                 </button>
             </div>
             
-            <!-- Hasil prediksi -->
+            <!-- Container untuk hasil prediksi -->
             <div id="prediction-result"></div>
         </div>
     </div>
