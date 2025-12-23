@@ -20,7 +20,7 @@ body {
 
 /* Style default (misalnya cerah) */
 .default {
-    background-image: url('../images/sun.jpg');
+    background-image: url('../images/home.png');
 }
 
 /* Style untuk cuaca cerah (Sun) */
@@ -253,4 +253,5 @@ nav ul {
         overflow: hidden; /* cegah bocor layout */
     }
 }
+
 
