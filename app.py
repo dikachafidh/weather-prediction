@@ -31,6 +31,9 @@ def load_models():
         X['day'] = X['date'].dt.day
         X = X.drop(columns=['date'])
         
+        print(f"Dataset loaded: {len(df)} records")
+        print(f"Columns: {list(X.columns)}")
+        
     except FileNotFoundError as e:
         print(f"Error: File tidak ditemukan - {e}")
         exit()
@@ -59,29 +62,44 @@ users = {
     "user": "user123"
 }
 
-# ==== Fungsi untuk prediksi cuaca ====
+# ==== Fungsi untuk prediksi cuaca (DIPERBAIKI) ====
 def predict_weather(tanggal_input):
     try:
         date_obj = pd.to_datetime(tanggal_input)
-    except:
+    except Exception as e:
+        print(f"Error parsing date: {e}")
         return {"error": "Format tanggal salah. Gunakan format YYYY-MM-DD."}
     
     month = date_obj.month
     day = date_obj.day
     
+    print(f"\n{'='*60}")
+    print(f"PREDIKSI UNTUK: {tanggal_input} (Bulan: {month}, Hari: {day})")
+    print(f"{'='*60}")
+    
+    # Cari data pada bulan dan hari yang sama
     subset = X[(X['month'] == month) & (X['day'] == day)]
     
     if subset.empty:
+        print("⚠️  Data tidak ditemukan untuk tanggal ini, menggunakan rata-rata keseluruhan")
         precipitation = X['precipitation'].mean()
         temp_max = X['temp_max'].mean()
         temp_min = X['temp_min'].mean()
         wind = X['wind'].mean()
     else:
+        print(f"✓ Data ditemukan: {len(subset)} record(s)")
         precipitation = subset['precipitation'].mean()
         temp_max = subset['temp_max'].mean()
         temp_min = subset['temp_min'].mean()
         wind = subset['wind'].mean()
     
+    print(f"Data Cuaca (sebelum prediksi):")
+    print(f"  - Precipitation: {precipitation}")
+    print(f"  - Temp Max: {temp_max}")
+    print(f"  - Temp Min: {temp_min}")
+    print(f"  - Wind: {wind}")
+    
+    # Buat dataframe untuk prediksi
     new_data_avg = pd.DataFrame({
         'precipitation': [precipitation],
         'temp_max': [temp_max],
@@ -92,12 +110,33 @@ def predict_weather(tanggal_input):
     })
     
     try:
+        # Scale data dan lakukan prediksi
         new_data_scaled = scaler.transform(new_data_avg)
         pred = rf_model.predict(new_data_scaled)
         label = le.inverse_transform(pred)[0]
         
-        return {"tanggal": tanggal_input, "prediksi_cuaca": label}
+        print(f"\n✓ Prediksi Cuaca: {label}")
+        
+        # PERBAIKAN UTAMA: Pastikan semua nilai valid dan dalam format yang benar
+        result = {
+            "tanggal": str(tanggal_input),
+            "prediksi_cuaca": str(label).lower(),  # lowercase untuk matching di frontend
+            "precipitation": float(round(precipitation, 2)) if pd.notna(precipitation) else 0.0,
+            "temp_max": float(round(temp_max, 2)) if pd.notna(temp_max) else 0.0,
+            "temp_min": float(round(temp_min, 2)) if pd.notna(temp_min) else 0.0,
+            "wind": float(round(wind, 2)) if pd.notna(wind) else 0.0
+        }
+        
+        print(f"\n📤 Response yang dikirim:")
+        for key, value in result.items():
+            print(f"  {key}: {value} (type: {type(value).__name__})")
+        print(f"{'='*60}\n")
+        
+        return result
+        
     except Exception as e:
+        print(f"\n❌ Error dalam prediksi: {str(e)}")
+        traceback.print_exc()
         return {"error": f"Prediction error: {str(e)}"}
 
 # ===== RUTE-RUTE APLIKASI =====
@@ -136,6 +175,7 @@ def user_dashboard():
     if 'logged_in' in session and session['username'] == 'user':
         today = date.today().strftime('%Y-%m-%d')
         current_weather = predict_weather(today)
+        
         return render_template('index.html', username=session['username'], current_weather=current_weather)
     return redirect(url_for('login'))
 
@@ -194,15 +234,39 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-# Rute prediksi cuaca (dilindungi)
+# Rute prediksi cuaca (dilindungi) - DIPERBAIKI
 @app.route('/predict', methods=['POST'])
 def predict():
-    if 'logged_in' in session:
+    if 'logged_in' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    try:
         data = request.get_json()
+        
+        if not data or 'date' not in data:
+            return jsonify({"error": "Tanggal tidak ditemukan dalam request"}), 400
+        
         tanggal = data['date']
+        print(f"\n📥 Request diterima untuk tanggal: {tanggal}")
+        
         result = predict_weather(tanggal)
+        
+        # DEBUG: Print result sebelum dikirim
+        print(f"\n📤 Sending response:")
+        print(f"Type of result: {type(result)}")
+        print(f"Result content: {result}")
+        
+        # Pastikan semua key ada
+        if 'temp_max' not in result and 'error' not in result:
+            print("⚠️ WARNING: temp_max not in result!")
+        
         return jsonify(result)
-    return jsonify({"error": "Unauthorized"}), 401
+        
+    except Exception as e:
+        print(f"\n❌ Error di endpoint /predict: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
 
 # Error handler
 @app.errorhandler(500)
@@ -210,4 +274,10 @@ def internal_error(error):
     return jsonify({"error": "Internal server error - model compatibility issue"}), 500
 
 if __name__ == '__main__':
+    print("\n" + "="*60)
+    print("🌤️  WEATHER PREDICTION APP - FLASK SERVER")
+    print("="*60)
+    print("Server running on: http://127.0.0.1:5000")
+    print("Press CTRL+C to quit")
+    print("="*60 + "\n")
     app.run(debug=True)
