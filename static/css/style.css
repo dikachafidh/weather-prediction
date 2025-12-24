@@ -253,6 +253,91 @@ nav ul {
         overflow: hidden; /* cegah bocor layout */
     }
 }
+/* Style untuk container parameter cuaca */
+.weather-params {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Grid layout untuk parameter */
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+/* Style untuk setiap item cuaca */
+.weather-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.weather-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.weather-item i {
+    font-size: 1.8em;
+    color: #4fc3f7;
+    width: 40px;
+    text-align: center;
+}
+
+/* Label parameter */
+.param-label {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 4px 0;
+}
+
+/* Nilai parameter */
+.param-value {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 600px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .weather-item {
+        padding: 10px;
+    }
+    
+    .weather-item i {
+        font-size: 1.5em;
+    }
+    
+    .param-value {
+        font-size: 1.2em;
+    }
+    
+    .weather-params {
+        padding: 15px;
+        margin-top: 20px;
+    }
+}
 
 
 
