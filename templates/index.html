@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-<body id="weather-body" class="default" onload="updateWeatherDisplay('{{ current_weather.prediksi_cuaca }}')">
+<body id="weather-body" class="default">
     <div id="nav-container">
         <div class="nav-flex">
             <label for="humberger">&#9776;</label>
@@ -43,4 +43,5 @@
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
