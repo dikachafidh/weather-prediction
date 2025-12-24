@@ -74,62 +74,27 @@ async function predictWeather() {
         
         const data = await response.json();
         
-        if (data.error) {
-            resultDiv.innerHTML = `<p style='color: red;'>${data.error}</p>`;
+if (data.error) {
+            resultDiv.innerHTML = <p style='color: red;'>${data.error}</p>;
         } else {
-            // Format tanggal dari database ke format yang lebih mudah dibaca
-            const dateObj = new Date(data.tanggal);
-            const formattedDate = dateObj.toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-            
-            // Tampilkan parameter cuaca seperti pada gambar
-            resultDiv.innerHTML = `
-                <div class="weather-params">
-                    <h3 style="margin-bottom: 15px; text-align: center;">Prediksi Cuaca</h3>
-                    <div class="weather-grid">
-                        <div class="weather-item">
-                            <i class="fas fa-thermometer-half"></i>
-                            <div>
-                                <p class="param-label">Suhu Maksimum</p>
-                                <p class="param-value">${data.temp_max}°C</p>
-                            </div>
-                        </div>
-                        <div class="weather-item">
-                            <i class="fas fa-thermometer-quarter"></i>
-                            <div>
-                                <p class="param-label">Suhu Minimum</p>
-                                <p class="param-value">${data.temp_min}°C</p>
-                            </div>
-                        </div>
-                        <div class="weather-item">
-                            <i class="fas fa-cloud-rain"></i>
-                            <div>
-                                <p class="param-label">Curah Hujan</p>
-                                <p class="param-value">${data.precipitation} inch</p>
-                            </div>
-                        </div>
-                        <div class="weather-item">
-                            <i class="fas fa-wind"></i>
-                            <div>
-                                <p class="param-label">Kecepatan Angin</p>
-                                <p class="param-value">${data.wind} mph</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 0.9em; text-align: center; color: rgba(255,255,255,0.8);">
-                        <p><i class="far fa-calendar-alt"></i> ${formattedDate}</p>
+            const tanggal = data.tanggal;
+            const prediksi = data.prediksi_cuaca;
+             resultDiv.innerHTML = `
+                    <div style="margin-top: 20px; padding: 15px; font-size: 12px; background: rgba(255,255,255,0.2); border-radius: 10px; backdrop-filter: blur(10px);">
+                    <div style="text-align: center;">
+                        <p><strong>🌡️ Suhu Maksimum:</strong> ${data.temp_max}°C</p>
+                        <p><strong>🌡️ Suhu Minimum:</strong> ${data.temp_min}°C</p>
+                        <p><strong>💧 Curah Hujan:</strong> ${data.precipitation} inch</p>
+                        <p><strong>💨 Kecepatan Angin:</strong> ${data.wind} mph</p>
                     </div>
                 </div>
             `;
             
             // Update tampilan background sesuai cuaca
-            updateWeatherDisplay(data.prediksi_cuaca);
+            updateWeatherDisplay(prediksi);
         }
     } catch (error) {
-        resultDiv.innerHTML = `<p style='color: red;'>Terjadi kesalahan saat melakukan prediksi.</p>`;
+        resultDiv.innerHTML = <p style='color: red;'>Terjadi kesalahan saat melakukan prediksi.</p>;
         console.error('Error:', error);
     }
 }
