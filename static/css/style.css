@@ -21,8 +21,6 @@ body {
 /* Style default (misalnya cerah) */
 .default {
     background-image: url('../images/home.png');
-    /* Debug: cek apakah gambar ada */
-    background-color: #ff0000; /* Warna merah untuk debug */
 }
 
 /* Style untuk cuaca cerah (Sun) */
@@ -255,6 +253,7 @@ nav ul {
         overflow: hidden; /* cegah bocor layout */
     }
 }
+
 
 
 
